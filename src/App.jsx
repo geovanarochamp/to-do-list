@@ -1,14 +1,16 @@
 import { useState } from "react";
-import * as S from "./styles/styles";
+import { v4 as uuid } from 'uuid';
 
 import { TasksList } from "./components/TasksList";
 import { ListStatus } from "./components/ListStatus";
+
+import * as S from "./styles/styles";
 
 function App() {
 
   const [task, setTask] = useState('');
   const [list, setList] = useState([]);
-  const [editedTask, setEditedTask] = useState('');
+  const [editedTask, setEditedTask] = useState({});
 
   function handleInputNewTask(event) {
     setTask(event.target.value)    
@@ -21,14 +23,23 @@ function App() {
   }
 
   function handleClickNewTask() {
-    if (editedTask) {
+    if (!task) {
+      alert("Seu campo está vazio. Por favor, digite uma tarefa.")
+      return
+    }
+
+    if (Object.keys(editedTask).length > 0) {
+      const removedTaskList = list.filter( (task) => ( task.idTask !== editedTask.id ))    
+      setList([...removedTaskList, {idTask: editedTask.id, descriptionTask: task, taskCompleted: editedTask.completed}])
+      setTask('')
 
     } else {
-      setList([...list, {idTask: ,descriptionTask: task, taskCompleted: false}])
+      setList([...list, {idTask: uuid(), descriptionTask: task, taskCompleted: false}])
       setTask('')
     }
+    
   }
-  
+
   return (
     <S.Container>
       <S.Title>To Do List</S.Title>
@@ -38,7 +49,7 @@ function App() {
         <S.Button onClick={handleClickNewTask}>Criar tarefa</S.Button>
       </S.InputWrapper>
 
-      <ListStatus />
+      <ListStatus data={list}/>
       
       <TasksList data={list} setList={setList} setTask={setTask} setEditedTask={setEditedTask}/>
 

@@ -35,3 +35,12 @@ export const TaskButtons = styled.div`
     gap: 10px;
     cursor: pointer;
 `
+
+export const InfoText = styled.div`
+    margin-top: 50px;
+
+    h3 {
+        font-weight: 400;    
+        color: #5A5A5A;
+    }
+`
