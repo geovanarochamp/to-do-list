@@ -9,6 +9,7 @@ Projeto desenvolvido para estudo e aplicação do framework React.
 ## 🛠️ Tecnologias
 
 - React
+- Hooks
 - Styled Components
 
 ## 📲 Contato
