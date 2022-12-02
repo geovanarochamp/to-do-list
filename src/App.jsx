@@ -1,70 +1,48 @@
 import { useState } from "react";
-import {
-  Container,
-  Title,
-  Input,
-  Button,
-  InputWrapper,
-  StatusWrapper,
-  StatusTask,
-  StatusText,
-  Task, 
-  Tasks,
-  TaskButtons
-} from "./styles/styles";
-import "./App.css";
+import * as S from "./styles/styles";
+
+import { TasksList } from "./components/TasksList";
+import { ListStatus } from "./components/ListStatus";
 
 function App() {
+
+  const [task, setTask] = useState('');
+  const [list, setList] = useState([]);
+  const [editedTask, setEditedTask] = useState('');
+
+  function handleInputNewTask(event) {
+    setTask(event.target.value)    
+  }
+
+  function handleEnterKeyDown(event) {
+    if (event.key == "Enter") {
+       handleClickNewTask()
+    }
+  }
+
+  function handleClickNewTask() {
+    if (editedTask) {
+
+    } else {
+      setList([...list, {idTask: ,descriptionTask: task, taskCompleted: false}])
+      setTask('')
+    }
+  }
+  
   return (
-    <Container>
-      <Title>To Do List</Title>
+    <S.Container>
+      <S.Title>To Do List</S.Title>
 
-      <InputWrapper>
-        <Input type="text" />
-        <Button>Criar tarefa</Button>
-      </InputWrapper>
+      <S.InputWrapper>
+        <S.Input type="text" value={task} onChange={handleInputNewTask} onKeyDown={handleEnterKeyDown} />
+        <S.Button onClick={handleClickNewTask}>Criar tarefa</S.Button>
+      </S.InputWrapper>
 
-      <StatusWrapper>
-        <StatusTask>
-          <StatusText>
-            Tarefas Realizadas: <span>0</span>
-          </StatusText>
-        </StatusTask>
-        <StatusTask>
-          <StatusText>
-            Total de Tarefas: <span>3</span>
-          </StatusText>
-        </StatusTask>
-      </StatusWrapper>
-      <div className="tasks-wrapper">
-        <Tasks>
-          <Task>
-            <div className="task-title">Task 1</div>
-            <TaskButtons>
-              <img src=".\src\assets\img\icon-trash.svg" />
-              <img src=".\src\assets\img\icon-pencil.svg" />
-              <img src=".\src\assets\img\icon-check.svg" />
-            </TaskButtons>
-          </Task>
-          <Task>
-            <div className="task-title">Task 2</div>
-            <TaskButtons>
-              <img src=".\src\assets\img\icon-trash.svg" />
-              <img src=".\src\assets\img\icon-pencil.svg" />
-              <img src=".\src\assets\img\icon-check.svg" />
-            </TaskButtons>
-          </Task>
-          <Task>
-            <div className="task-title">Task 3</div>
-            <TaskButtons>
-              <img src=".\src\assets\img\icon-trash.svg" />
-              <img src=".\src\assets\img\icon-pencil.svg" />
-              <img src=".\src\assets\img\icon-check.svg" />
-            </TaskButtons>
-          </Task>
-        </Tasks>
-      </div>
-    </Container>
+      <ListStatus />
+      
+      <TasksList data={list} setList={setList} setTask={setTask} setEditedTask={setEditedTask}/>
+
+    </S.Container>
   );
 }
 
